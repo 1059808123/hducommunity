@@ -2,10 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>杭电社区</title>
+    <title>发布</title>
     <link rel="stylesheet" href="css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="bootstrap-theme.min.css"/>
-    <link rel="stylesheet" href="css/community.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="css/community.css"/>
     <script src="js/bootstrap.min.js" type="application/javascript"></script>
 </head>
 <body>
@@ -14,7 +14,7 @@
 
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only" href="/">杭电社区</span>
+                <span class="sr-only">杭电社区</span>
 
             </button>
             <a class="navbar-brand" href="#">杭电社区</a>
@@ -46,29 +46,47 @@
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
+
 </nav>
 <div class="container-fluid main">
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" >
-            <h2><span class="glyphicon glyphicon-list" aria-hidden="true"></span> 发现</h2>
+            <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h2>
             <hr>
-        <div class="media">
-            <div class="media-left">
-                <a href="a">
-                    <img class="media-object img-rounded" src="https://dss0.baidu.com/6LZXsjikBxIFlNKl8IuM_a/tb/r/image/2014-03-06/81e684a4a077bdbaeee18c74f92ef008.jpg" >
-                </a>
-            </div>
-            <div class="media-body">
-                <h3 class="media-heading">xxxx</h3>
-                diss<br>
-                <span class="text-desc"> 2 个回复 31次浏览 1小时前</span>
-            </div>
-        </div>
 
+            <form action="/publish"method="post">
+                <div class="form-group">
+                    <label for="title">问题标题(简单扼要):</label>
+                    <input type="email" class="form-control" th:value="#{title}" id="title" placeholder="问题标题">
+                </div>
+                <div class="form-group">
+                    <label for="title">问题补充:</label>
+                    <textarea name="descrption" id="discription" th:text="#{description}" class="form-control" cols="30" rows="30"></textarea>
+
+                </div>
+                <div class="form-group">
+                    <label for="title">添加标签:</label>
+                    <input type="email" class="form-control" th:value="#{tag}" id="tag" name="tag" placeholder="输入标签，以，号分隔">
+                </div>
+
+                <div class="container-fluid main">
+                    <div class="row">
+                        <div class="alert-danger col-lg-9 col-md-12 col-sm-12 col-xs-12" th:text="${error}" th:if="${error != null}"></div>
+                        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                            <button type="submit" class="btn btn-success btn-publish">
+                                发布
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" >
-            <h3>热门话题</h3>
-
+            <h3>问题发起指南</h3>
+            • 问题标题: 请使用精简的语言描述您发布的问题,不超过25字<br>
+            • 问题补充: 详细补充您的问题内容,并确保问题描述清晰直观,并提供一些相关的资料<br>
+            • 选择标签: 选择一个或者多个合适的标签,用逗号隔开,每个标签不超过10个字<br>
         </div>
     </div>
 </div>
