@@ -13,7 +13,7 @@ public class User {
     private String token;
     private Long gmtCreate;
     private Long gmtModified;
-    private String avataUrl;
+    private String avatarUrl;
 
     public Integer getId() {
         return id;
@@ -63,11 +63,11 @@ public class User {
         this.gmtModified = gmtModified;
     }
 
-    public String getAvataUrl() {
-        return avataUrl;
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 
-    public void setAvataUrl(String avataUrl) {
-        this.avataUrl = avataUrl;
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 }

@@ -7,47 +7,10 @@
     <link rel="stylesheet" href="css/bootstrap-theme.min.css"/>
     <link rel="stylesheet" href="css/community.css"/>
     <script src="js/bootstrap.min.js" type="application/javascript"></script>
+    <script src="js/jquery-3.5.1.min.js" ></script>
 </head>
 <body>
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">杭电社区</span>
-
-            </button>
-            <a class="navbar-brand" href="#">杭电社区</a>
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
-            <form class="navbar-form navbar-left">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="搜索相关问题">
-                </div>
-                <button type="submit" class="btn btn-default">搜索</button>
-            </form>
-            <ul class="nav navbar-nav navbar-right">
-                <li th:if="${session.user != null}">
-                    <a href="/publish">发布</a>
-                </li>
-                <li><a href="#">登录</a></li>  <!--这里是放登录API地址 -->
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">我 <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">消息</a></li>
-                        <li><a href="#">个人资料</a></li>
-                        <li><a href="#">退出登录</a></li>
-
-                    </ul>
-                </li>
-            </ul>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-
-</nav>
+<div th:insert="~{navigation :: nav}"></div>
 <div class="container-fluid main">
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" >
@@ -57,16 +20,16 @@
             <form action="/publish"method="post">
                 <div class="form-group">
                     <label for="title">问题标题(简单扼要):</label>
-                    <input type="email" class="form-control" th:value="#{title}" id="title" placeholder="问题标题">
+                    <input type="text" class="form-control" name="title" th:value="${title}" id="title" placeholder="问题标题">
                 </div>
                 <div class="form-group">
-                    <label for="title">问题补充:</label>
-                    <textarea name="descrption" id="discription" th:text="#{description}" class="form-control" cols="30" rows="30"></textarea>
+                    <label for="description">问题补充:</label>
+                    <textarea name="description" id="discription" th:text="${description}" class="form-control" cols="30" rows="30"></textarea>
 
                 </div>
                 <div class="form-group">
-                    <label for="title">添加标签:</label>
-                    <input type="email" class="form-control" th:value="#{tag}" id="tag" name="tag" placeholder="输入标签，以，号分隔">
+                    <label for="tag">添加标签:</label>
+                    <input type="text" class="form-control" th:value="${tag}" id="tag" name="tag" placeholder="输入标签，以，号分隔">
                 </div>
 
                 <div class="container-fluid main">

@@ -1,9 +1,9 @@
 package com.hducommunity.community.controller;
 
 import com.hducommunity.community.mapper.IQuestionMapper;
+import com.hducommunity.community.mapper.IUserMapper;
 import com.hducommunity.community.model.Question;
 import com.hducommunity.community.model.User;
-import com.hducommunity.community.service.ICreateQuestion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -23,23 +24,25 @@ import javax.servlet.http.HttpServletRequest;
 class PublishController {
     @Autowired(required = false)
     private IQuestionMapper iQuestionMapper;
-    @Autowired
-    private ICreateQuestion iCreateQuestion;
+    @Autowired(required = false)
+    private IUserMapper userMapper;
+
 
     @GetMapping("/publish")
     public String publih(){
+        System.out.println("1");
         return "publish";
     }
 
     @PostMapping("/publish")
     public String doPublish(
-        @RequestParam(value = "title", required = false) String title,
-        @RequestParam(value = "description",required = false) String description,
-        @RequestParam(value = "tag",required = false) String tag,
+        @RequestParam("title") String title,
+        @RequestParam("description") String description,
+        @RequestParam("tag") String tag,
         HttpServletRequest request,
         Model model
     ){
-        model.addAttribute("titile",title);
+        model.addAttribute("title",title);
         model.addAttribute("description",description);
         model.addAttribute("tag",tag);
         if(title == null || title == ""){
@@ -58,16 +61,31 @@ class PublishController {
         }
 
         User user = null;
-        if((user = iCreateQuestion.addQuestion(request)) == null){
+        Cookie[] cookies = request.getCookies();
+        if(cookies != null && cookies.length != 0) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("token")) {
+                    String token = cookie.getValue();
+                     user = userMapper.findByToken(token);
+                    if (user != null) {
+                        request.getSession().setAttribute("user", user);
+                    }
+                    break;
+                }
+            }
+        }
+        if(user == null){
             model.addAttribute("error","用户未登陆");
             return "publish";
         }
+        model.addAttribute("user",user);
         Question question = new Question();
         question.setTitle(title);
         question.setDescription(description);
         question.setTag(tag);
         question.setGmtCreate(System.currentTimeMillis());
         question.setGmtModified(question.getGmtCreate());
+
         iQuestionMapper.create(question);
         return "redirect:/";
     }
